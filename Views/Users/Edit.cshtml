@@ -1,0 +1,73 @@
+@model SmartClinic.Models.User
+@{ ViewData["Title"] = "Edit Staff"; }
+
+<div class="container mt-4 fade-in" style="max-width: 600px;">
+    <div class="mb-4">
+        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill btn-sm">
+            <i class="bi bi-arrow-left me-1"></i>Back to Staff
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-header text-white border-0 py-3"
+             style="background: linear-gradient(135deg, #1e3a5f, #2563eb);">
+            <h5 class="mb-0 fw-bold"><i class="bi bi-pencil-square me-2"></i>Edit Staff Member</h5>
+            <p class="mb-0 small text-white-50 mt-1">Modify user details below.</p>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Edit" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Name" class="form-label">Full Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="e.g. Dr. Sarah Ahmed" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Code" class="form-label">Login Code</label>
+                        <input asp-for="Code" class="form-control" placeholder="e.g. doc456" />
+                        <span asp-validation-for="Code" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Role" class="form-label">Role</label>
+                        <select asp-for="Role" class="form-select">
+                            <option value="Admin">Admin</option>
+                            <option value="Doctor">Doctor</option>
+                            <option value="Reception">Reception</option>
+                            <option value="Patient">Patient</option>
+                        </select>
+                        <span asp-validation-for="Role" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Password" class="form-label">Password</label>
+                        <div class="password-wrapper">
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Enter new password" />
+                            <button type="button" class="password-toggle" aria-label="Show password">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                        <i class="bi bi-x-lg me-1"></i>Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">
+                        <i class="bi bi-save me-1"></i>Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts { @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); } }

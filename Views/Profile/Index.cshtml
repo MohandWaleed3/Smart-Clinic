@@ -1,0 +1,74 @@
+@model SmartClinic.Models.User
+@{ ViewData["Title"] = "My Profile"; }
+
+<div class="container mt-4 fade-in" style="max-width:520px">
+    <div class="mb-4">
+        <a asp-controller="Dashboard" asp-action="Index" class="btn btn-outline-secondary rounded-pill btn-sm">
+            <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-header text-white border-0 py-3"
+             style="background: linear-gradient(135deg, #1e3a5f, #2563eb);">
+            <h5 class="mb-0 fw-bold"><i class="bi bi-person-gear me-2"></i>My Profile</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="text-center mb-4">
+                <div class="avatar-circle mx-auto mb-3">
+                    <i class="bi bi-person-fill fs-1 text-primary"></i>
+                </div>
+                <h5 class="fw-bold mb-1">@Model.Name</h5>
+                @{
+                    var roleBadge = Model.Role switch
+                    {
+                        "Admin"     => "bg-danger",
+                        "Doctor"    => "bg-success",
+                        "Reception" => "bg-info",
+                        _           => "bg-secondary"
+                    };
+                }
+                <span class="badge @roleBadge rounded-pill">@Model.Role</span>
+            </div>
+
+            <div class="p-3 rounded-3 mb-4" style="background: var(--sc-gray-50); border: 1px solid var(--sc-gray-200);">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="flex-shrink-0">
+                        <i class="bi bi-key-fill text-muted fs-5"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block" style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.5px;">Login Code</small>
+                        <span class="fw-semibold font-monospace">@Model.Code</span>
+                        <small class="text-muted ms-2">(cannot be changed)</small>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <form asp-action="Index" method="post">
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label class="form-label">Display Name</label>
+                    <input type="text" name="name" value="@Model.Name" class="form-control" required />
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">New Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" name="password" class="form-control"
+                               placeholder="Leave blank to keep current" autocomplete="new-password" />
+                        <button type="button" class="password-toggle" aria-label="Show password">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    <div class="form-text">Only fill this if you want to change your password.</div>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary rounded-pill py-2 fw-bold">
+                        <i class="bi bi-save me-2"></i>Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

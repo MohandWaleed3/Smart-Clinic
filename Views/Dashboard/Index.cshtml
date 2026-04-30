@@ -1,100 +1,257 @@
 @{
     ViewData["Title"] = "Dashboard";
+    var role = ViewBag.Role as string;
 }
 
 <div class="container mt-4 fade-in">
     <div class="d-flex justify-content-between align-items-center mb-5 pb-3 border-bottom">
-        <h2 class="fw-bold">Welcome back, <span class="text-primary">@ViewBag.UserName</span>!</h2>
-        <span class="badge bg-primary rounded-pill px-3 py-2 fs-6 shadow-sm"><i class="bi bi-shield-lock"></i> Role: @ViewBag.Role</span>
+        <div>
+            <h2 class="fw-bold mb-1">Welcome back, <span class="text-primary">@ViewBag.UserName</span>!</h2>
+            <p class="text-muted mb-0">Here's what's happening in the clinic today.</p>
+        </div>
+        <span class="badge rounded-pill px-3 py-2 fs-6 shadow-sm
+            @(role == "Admin" ? "bg-danger" :
+              role == "Doctor" ? "bg-success" :
+              role == "Reception" ? "bg-info" : "bg-secondary")">
+            <i class="bi bi-shield-lock me-1"></i>@role
+        </span>
     </div>
 
-    @if (ViewBag.Role == "Admin")
+    @* ─── ADMIN DASHBOARD ─── *@
+    @if (role == "Admin")
     {
+        <div class="row g-4 mb-5">
+            <div class="col-6 col-lg-3">
+                <div class="card border-0 shadow-sm text-center p-3 h-100 stat-card">
+                    <div class="stat-icon bg-primary bg-opacity-10 text-primary mb-2"><i class="bi bi-people-fill fs-3"></i></div>
+                    <div class="display-6 fw-bold text-primary">@ViewBag.TotalPatients</div>
+                    <div class="text-muted small">Total Patients</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="card border-0 shadow-sm text-center p-3 h-100 stat-card">
+                    <div class="stat-icon bg-danger bg-opacity-10 text-danger mb-2"><i class="bi bi-person-badge-fill fs-3"></i></div>
+                    <div class="display-6 fw-bold text-danger">@ViewBag.TotalUsers</div>
+                    <div class="text-muted small">Staff Members</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="card border-0 shadow-sm text-center p-3 h-100 stat-card">
+                    <div class="stat-icon bg-success bg-opacity-10 text-success mb-2"><i class="bi bi-calendar-check-fill fs-3"></i></div>
+                    <div class="display-6 fw-bold text-success">@ViewBag.TotalAppointments</div>
+                    <div class="text-muted small">Total Appointments</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="card border-0 shadow-sm text-center p-3 h-100 stat-card">
+                    <div class="stat-icon bg-warning bg-opacity-10 text-warning mb-2"><i class="bi bi-hourglass-split fs-3"></i></div>
+                    <div class="display-6 fw-bold text-warning">@ViewBag.ScheduledAppointments</div>
+                    <div class="text-muted small">Scheduled</div>
+                </div>
+            </div>
+        </div>
+
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm admin-card glass-card">
+                <div class="card h-100 border-0 shadow-sm action-card">
                     <div class="card-body p-4 text-center">
-                        <div class="icon-circle bg-gradient-primary text-white mb-3">
-                            <i class="bi bi-people-fill fs-3"></i>
-                        </div>
+                        <div class="icon-circle bg-primary bg-opacity-10 text-primary mb-3"><i class="bi bi-shield-person fs-3"></i></div>
                         <h5 class="card-title fw-bold">Manage Staff</h5>
-                        <p class="card-text text-muted">Add, edit, or remove staff accounts and assign roles securely.</p>
-                        <a asp-controller="Users" asp-action="Index" class="btn btn-dark w-100 rounded-pill mt-2">Go to Users</a>
+                        <p class="card-text text-muted">Add, edit, or remove staff accounts and assign roles.</p>
+                        <a asp-controller="Users" asp-action="Index" class="btn btn-primary w-100 rounded-pill mt-2">Go to Staff</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm admin-card glass-card">
+                <div class="card h-100 border-0 shadow-sm action-card">
                     <div class="card-body p-4 text-center">
-                        <div class="icon-circle bg-danger text-white mb-3">
-                            <i class="bi bi-shield-check fs-3"></i>
-                        </div>
-                        <h5 class="card-title fw-bold">Security Logs</h5>
-                        <p class="card-text text-muted">Monitor login attempts and system anomalies proactively.</p>
-                        <a href="#" class="btn btn-outline-danger w-100 rounded-pill mt-2">View Logs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-    else if (ViewBag.Role == "Doctor")
-    {
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm doctor-card glass-card">
-                    <div class="card-body p-4 text-center">
-                        <div class="icon-circle bg-gradient-success text-white mb-3">
-                            <i class="bi bi-calendar-check fs-3"></i>
-                        </div>
-                        <h5 class="card-title fw-bold">Today's Appointments</h5>
-                        <p class="card-text text-muted">Access your patient queue and enter diagnosis notes securely.</p>
-                        <a asp-controller="Appointments" asp-action="Index" class="btn btn-success w-100 rounded-pill mt-2">View Schedule</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-    else if (ViewBag.Role == "Reception")
-    {
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm reception-card glass-card">
-                    <div class="card-body p-4 text-center">
-                        <div class="icon-circle bg-info text-white mb-3">
-                            <i class="bi bi-person-plus-fill fs-3"></i>
-                        </div>
-                        <h5 class="card-title fw-bold">Patient Registry</h5>
-                        <p class="card-text text-muted">Register new patients, search records, and book appointments.</p>
-                        <a asp-controller="Patients" asp-action="Index" class="btn btn-info text-white w-100 rounded-pill mt-2 fw-bold">Manage Patients</a>
+                        <div class="icon-circle bg-info bg-opacity-10 text-info mb-3"><i class="bi bi-people fs-3"></i></div>
+                        <h5 class="card-title fw-bold">Patient Records</h5>
+                        <p class="card-text text-muted">Browse and search all patient records in the system.</p>
+                        <a asp-controller="Patients" asp-action="Index" class="btn btn-info text-white w-100 rounded-pill mt-2">View Patients</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm reception-card glass-card">
+                <div class="card h-100 border-0 shadow-sm action-card">
                     <div class="card-body p-4 text-center">
-                        <div class="icon-circle bg-gradient-success text-white mb-3">
-                            <i class="bi bi-calendar-plus fs-3"></i>
-                        </div>
+                        <div class="icon-circle bg-success bg-opacity-10 text-success mb-3"><i class="bi bi-calendar-check fs-3"></i></div>
                         <h5 class="card-title fw-bold">Appointments</h5>
-                        <p class="card-text text-muted">Schedule and manage clinic appointments effectively.</p>
-                        <a asp-controller="Appointments" asp-action="Index" class="btn btn-success w-100 rounded-pill mt-2 fw-bold">Book Appointment</a>
+                        <p class="card-text text-muted">View and manage all clinic appointments.</p>
+                        <a asp-controller="Appointments" asp-action="Index" class="btn btn-success w-100 rounded-pill mt-2">View Appointments</a>
                     </div>
                 </div>
             </div>
         </div>
     }
-    else if (ViewBag.Role == "Patient")
+
+    @* ─── DOCTOR DASHBOARD ─── *@
+    else if (role == "Doctor")
     {
+        <div class="row g-4 mb-5">
+            <div class="col-6 col-lg-4">
+                <div class="card border-0 shadow-sm text-center p-3 h-100 stat-card">
+                    <div class="stat-icon bg-success bg-opacity-10 text-success mb-2"><i class="bi bi-calendar-check-fill fs-3"></i></div>
+                    <div class="display-6 fw-bold text-success">@ViewBag.MyAppointments</div>
+                    <div class="text-muted small">My Appointments</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-4">
+                <div class="card border-0 shadow-sm text-center p-3 h-100 stat-card">
+                    <div class="stat-icon bg-warning bg-opacity-10 text-warning mb-2"><i class="bi bi-hourglass-split fs-3"></i></div>
+                    <div class="display-6 fw-bold text-warning">@ViewBag.MyScheduled</div>
+                    <div class="text-muted small">Scheduled</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-4">
+                <div class="card border-0 shadow-sm text-center p-3 h-100 stat-card">
+                    <div class="stat-icon bg-primary bg-opacity-10 text-primary mb-2"><i class="bi bi-check-circle-fill fs-3"></i></div>
+                    <div class="display-6 fw-bold text-primary">@ViewBag.MyCompleted</div>
+                    <div class="text-muted small">Completed</div>
+                </div>
+            </div>
+        </div>
+
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm patient-card">
+                <div class="card h-100 border-0 shadow-sm action-card">
                     <div class="card-body p-4 text-center">
-                        <div class="icon-circle bg-secondary text-white mb-3">
-                            <i class="bi bi-journal-medical fs-3"></i>
-                        </div>
-                        <h5 class="card-title fw-bold">My Health Records</h5>
-                        <p class="card-text text-muted">Securely access your past visits, prescriptions, and upcoming appointments.</p>
-                        <a href="#" class="btn btn-secondary w-100 rounded-pill mt-2">View Records</a>
+                        <div class="icon-circle bg-success bg-opacity-10 text-success mb-3"><i class="bi bi-calendar-week fs-3"></i></div>
+                        <h5 class="card-title fw-bold">My Schedule</h5>
+                        <p class="card-text text-muted">View your patient queue and update appointment status.</p>
+                        <a asp-controller="Appointments" asp-action="Index" class="btn btn-success w-100 rounded-pill mt-2">View My Appointments</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm action-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-circle bg-info bg-opacity-10 text-info mb-3"><i class="bi bi-people fs-3"></i></div>
+                        <h5 class="card-title fw-bold">Patient Records</h5>
+                        <p class="card-text text-muted">Browse patient information for your appointments.</p>
+                        <a asp-controller="Patients" asp-action="Index" class="btn btn-info text-white w-100 rounded-pill mt-2">View Patients</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @* ─── RECEPTION DASHBOARD ─── *@
+    else if (role == "Reception")
+    {
+        <div class="row g-4 mb-5">
+            <div class="col-6 col-lg-4">
+                <div class="card border-0 shadow-sm text-center p-3 h-100 stat-card">
+                    <div class="stat-icon bg-info bg-opacity-10 text-info mb-2"><i class="bi bi-people-fill fs-3"></i></div>
+                    <div class="display-6 fw-bold text-info">@ViewBag.TotalPatients</div>
+                    <div class="text-muted small">Registered Patients</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-4">
+                <div class="card border-0 shadow-sm text-center p-3 h-100 stat-card">
+                    <div class="stat-icon bg-success bg-opacity-10 text-success mb-2"><i class="bi bi-calendar-day-fill fs-3"></i></div>
+                    <div class="display-6 fw-bold text-success">@ViewBag.TodayAppointments</div>
+                    <div class="text-muted small">Today's Appointments</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-4">
+                <div class="card border-0 shadow-sm text-center p-3 h-100 stat-card">
+                    <div class="stat-icon bg-primary bg-opacity-10 text-primary mb-2"><i class="bi bi-calendar-check fs-3"></i></div>
+                    <div class="display-6 fw-bold text-primary">@ViewBag.TotalAppointments</div>
+                    <div class="text-muted small">Total Appointments</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm action-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-circle bg-info bg-opacity-10 text-info mb-3"><i class="bi bi-person-plus-fill fs-3"></i></div>
+                        <h5 class="card-title fw-bold">Patient Registry</h5>
+                        <p class="card-text text-muted">Register new patients, search and manage records.</p>
+                        <a asp-controller="Patients" asp-action="Index" class="btn btn-info text-white w-100 rounded-pill mt-2">Manage Patients</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm action-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-circle bg-success bg-opacity-10 text-success mb-3"><i class="bi bi-calendar-plus fs-3"></i></div>
+                        <h5 class="card-title fw-bold">Appointments</h5>
+                        <p class="card-text text-muted">Schedule and manage all clinic appointments.</p>
+                        <a asp-controller="Appointments" asp-action="Index" class="btn btn-success w-100 rounded-pill mt-2">Manage Appointments</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm action-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-circle bg-primary bg-opacity-10 text-primary mb-3"><i class="bi bi-calendar-plus-fill fs-3"></i></div>
+                        <h5 class="card-title fw-bold">New Appointment</h5>
+                        <p class="card-text text-muted">Quickly book a new appointment for a patient.</p>
+                        <a asp-controller="Appointments" asp-action="Create" class="btn btn-primary w-100 rounded-pill mt-2">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @* ─── PATIENT DASHBOARD ─── *@
+    else if (role == "Patient")
+    {
+        var next = ViewBag.NextAppointment as SmartClinic.Models.Appointment;
+
+        <div class="row g-4 mb-5">
+            <div class="col-6 col-lg-4">
+                <div class="card border-0 shadow-sm text-center p-3 h-100 stat-card">
+                    <div class="stat-icon bg-secondary bg-opacity-10 text-secondary mb-2"><i class="bi bi-calendar-event fs-3"></i></div>
+                    <div class="display-6 fw-bold text-secondary">@ViewBag.MyTotal</div>
+                    <div class="text-muted small">Total Appointments</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-4">
+                <div class="card border-0 shadow-sm text-center p-3 h-100 stat-card">
+                    <div class="stat-icon bg-success bg-opacity-10 text-success mb-2"><i class="bi bi-calendar-check fs-3"></i></div>
+                    <div class="display-6 fw-bold text-success">@ViewBag.MyUpcoming</div>
+                    <div class="text-muted small">Upcoming</div>
+                </div>
+            </div>
+        </div>
+
+        @if (next != null)
+        {
+            <div class="alert alert-info border-0 shadow-sm rounded-3 mb-4 d-flex align-items-center gap-3" role="alert">
+                <i class="bi bi-calendar-event-fill fs-3 text-info flex-shrink-0"></i>
+                <div>
+                    <strong>Next Appointment:</strong>
+                    @next.AppointmentDate.ToString("dddd, MMMM d, yyyy 'at' h:mm tt")
+                    @if (next.Doctor != null)
+                    {
+                        <span class="ms-2">with <strong>Dr. @next.Doctor.Name</strong></span>
+                    }
+                </div>
+            </div>
+        }
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm action-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-circle bg-secondary bg-opacity-10 text-secondary mb-3"><i class="bi bi-calendar-week fs-3"></i></div>
+                        <h5 class="card-title fw-bold">My Appointments</h5>
+                        <p class="card-text text-muted">View all your scheduled and past appointments.</p>
+                        <a asp-controller="Appointments" asp-action="Index" class="btn btn-secondary w-100 rounded-pill mt-2">View Appointments</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm action-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-circle bg-primary bg-opacity-10 text-primary mb-3"><i class="bi bi-person-gear fs-3"></i></div>
+                        <h5 class="card-title fw-bold">My Profile</h5>
+                        <p class="card-text text-muted">View and update your personal information.</p>
+                        <a asp-controller="Profile" asp-action="Index" class="btn btn-primary w-100 rounded-pill mt-2">My Profile</a>
                     </div>
                 </div>
             </div>
@@ -103,27 +260,12 @@
 </div>
 
 <style>
-    .icon-circle {
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-    }
-    .card {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-    }
-    .fade-in {
-        animation: fadeIn 0.5s ease-in;
-    }
-    @@keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+    .stat-card { transition: transform 0.2s ease, box-shadow 0.2s ease; border-radius: 12px; }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important; }
+    .stat-icon { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+    .action-card { border-radius: 14px; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .action-card:hover { transform: translateY(-5px); box-shadow: 0 12px 28px rgba(0,0,0,0.12) !important; }
+    .icon-circle { width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+    .fade-in { animation: fadeIn 0.45s ease-in; }
+    @@keyframes fadeIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 </style>

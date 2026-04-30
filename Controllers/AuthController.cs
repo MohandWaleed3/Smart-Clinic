@@ -17,6 +17,10 @@ namespace SmartClinic.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            // Already logged in — go to dashboard
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Role")))
+                return RedirectToAction("Index", "Dashboard");
+
             return View();
         }
 
@@ -26,11 +30,13 @@ namespace SmartClinic.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Code == code && u.Password == password);
             if (user != null)
             {
+                HttpContext.Session.SetInt32("UserId", user.Id);
+                HttpContext.Session.SetString("UserCode", user.Code);
                 HttpContext.Session.SetString("Role", user.Role);
                 HttpContext.Session.SetString("UserName", user.Name);
                 return RedirectToAction("Index", "Dashboard");
             }
-            
+
             TempData["Error"] = "Invalid code or password. Please try again.";
             return View();
         }
@@ -39,6 +45,11 @@ namespace SmartClinic.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

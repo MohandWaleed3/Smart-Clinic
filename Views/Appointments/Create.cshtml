@@ -1,51 +1,69 @@
 @model SmartClinic.Models.Appointment
-@{ ViewData["Title"] = "New Appointment"; }
+@{ ViewData["Title"] = "Schedule Appointment"; }
 
-<div class="container mt-4 fade-in">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card glass-card border-0 shadow-lg">
-                <div class="card-header bg-gradient-success text-white border-0 p-4 rounded-top">
-                    <h3 class="mb-0"><i class="bi bi-calendar-plus-fill"></i> Schedule Appointment</h3>
+<div class="container mt-4 fade-in" style="max-width: 600px;">
+    <div class="mb-4">
+        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill btn-sm">
+            <i class="bi bi-arrow-left me-1"></i>Back to Appointments
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-header text-white border-0 py-3"
+             style="background: linear-gradient(135deg, #065f46, #059669);">
+            <h5 class="mb-0 fw-bold"><i class="bi bi-calendar-plus-fill me-2"></i>Schedule Appointment</h5>
+            <p class="mb-0 small text-white-50 mt-1">Book a new appointment for a patient.</p>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="PatientId" class="form-label">Patient</label>
+                        <select asp-for="PatientId" class="form-select" asp-items="ViewBag.PatientId">
+                            <option value="" disabled selected>Select patient</option>
+                        </select>
+                        <span asp-validation-for="PatientId" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="DoctorId" class="form-label">Assign Doctor</label>
+                        <select asp-for="DoctorId" class="form-select" asp-items="ViewBag.DoctorId">
+                            <option value="" disabled selected>Select doctor</option>
+                        </select>
+                        <span asp-validation-for="DoctorId" class="text-danger small"></span>
+                    </div>
                 </div>
-                <div class="card-body p-4">
-                    <form asp-action="Create" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                        
-                        <div class="row g-3">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="PatientId" class="form-label fw-bold">Patient</label>
-                                <select asp-for="PatientId" class="form-select glass-input" asp-items="ViewBag.PatientId"></select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="DoctorId" class="form-label fw-bold">Assign Doctor</label>
-                                <select asp-for="DoctorId" class="form-select glass-input" asp-items="ViewBag.DoctorId"></select>
-                            </div>
-                        </div>
 
-                        <div class="row g-3">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="AppointmentDate" class="form-label fw-bold">Date and Time</label>
-                                <input asp-for="AppointmentDate" type="datetime-local" class="form-control glass-input" />
-                                <span asp-validation-for="AppointmentDate" class="text-danger small"></span>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Status" class="form-label fw-bold">Status</label>
-                                <select asp-for="Status" class="form-select glass-input">
-                                    <option value="Scheduled">Scheduled</option>
-                                    <option value="Confirmed">Confirmed</option>
-                                    <option value="Completed">Completed</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="d-flex justify-content-between mt-4">
-                            <a asp-action="Index" class="btn btn-outline-secondary px-4 rounded-pill">Cancel</a>
-                            <button type="submit" class="btn btn-success px-5 fw-bold shadow-sm rounded-pill">Book Now</button>
-                        </div>
-                    </form>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="AppointmentDate" class="form-label">Date &amp; Time</label>
+                        <input asp-for="AppointmentDate" type="datetime-local" class="form-control" />
+                        <span asp-validation-for="AppointmentDate" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Status" class="form-label">Status</label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="Scheduled">Scheduled</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
+
+                <hr class="my-4">
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                        <i class="bi bi-x-lg me-1"></i>Cancel
+                    </a>
+                    <button type="submit" class="btn btn-success rounded-pill px-4">
+                        <i class="bi bi-check-lg me-1"></i>Book Appointment
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+@section Scripts { @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); } }

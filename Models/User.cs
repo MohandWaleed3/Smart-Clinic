@@ -16,6 +16,7 @@ namespace SmartClinic.Models
         public string Role { get; set; } // Admin, Doctor, Reception, Patient
         
         [Required(ErrorMessage = "Password is required")]
+        [MinLength(6, ErrorMessage = "Password must be at least 6 characters long")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

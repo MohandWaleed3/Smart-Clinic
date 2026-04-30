@@ -1,41 +1,58 @@
 @{
     ViewData["Title"] = "Login";
+    Layout = "_Layout";
 }
 
-<div class="d-flex align-items-center justify-content-center mt-5">
-    <div class="card shadow-lg border-0 rounded-lg p-5" style="width: 100%; max-width: 450px;">
-        <div class="text-center mb-4">
-            <h2 class="fw-bold text-primary">Smart Clinic</h2>
-            <p class="text-muted">Enter your credentials to access the portal</p>
+<div class="login-container fade-in">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-logo">
+                <i class="bi bi-heart-pulse-fill text-white fs-2"></i>
+            </div>
+            <h3 class="fw-bold text-white mb-1">SmartClinic</h3>
+            <p class="text-white-50 mb-0 small">Secure Clinic Management Portal</p>
         </div>
-        
-        @if (TempData["Error"] != null)
-        {
-            <div class="alert alert-danger shadow-sm alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["Error"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        }
-        
-        <form asp-action="Login" method="post">
-            <div class="form-floating mb-3">
-                <input type="text" id="code" name="code" class="form-control" required placeholder="Access Code" />
-                <label for="code">Access Code</label>
-            </div>
-            <div class="form-floating mb-4">
-                <input type="password" id="password" name="password" class="form-control" required placeholder="Password" />
-                <label for="password">Password</label>
-            </div>
-            <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow-sm">
-                Log In
-            </button>
-        </form>
+        <div class="login-body">
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <span>@TempData["Error"]</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
 
-        <div class="mt-4 text-center text-muted small">
-            <p><strong>Demo Accounts:</strong><br/>
-            Admin: admin123 / password<br/>
-            Doctor: doc123 / password<br/>
-            Reception: rec123 / password</p>
+            <form asp-action="Login" method="post">
+                <div class="mb-3">
+                    <label for="code" class="form-label">Access Code</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-person-badge text-muted"></i></span>
+                        <input type="text" id="code" name="code" class="form-control border-start-0"
+                               required placeholder="Enter your access code" autocomplete="username" autofocus />
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="password-wrapper">
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                            <input type="password" id="password" name="password" class="form-control border-start-0 border-end-0"
+                                   required placeholder="Enter your password" autocomplete="current-password" />
+                            <button type="button" class="input-group-text bg-transparent border-start-0 password-toggle" aria-label="Show password">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-primary rounded-pill py-2 fw-bold" id="loginBtn">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Log In
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+

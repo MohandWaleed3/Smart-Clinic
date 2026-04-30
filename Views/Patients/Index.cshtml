@@ -1,93 +1,118 @@
 @model IEnumerable<SmartClinic.Models.Patient>
 @{
     ViewData["Title"] = "Patient Registry";
+    bool isReadOnly = ViewData["IsReadOnly"] as bool? ?? false;
 }
 
 <div class="container mt-4 fade-in">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="bi bi-people-fill text-info"></i> Patient Registry</h2>
-        <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow-sm"><i class="bi bi-plus-lg"></i> New Patient</a>
+        <h2 class="fw-bold"><i class="bi bi-people-fill text-info me-2"></i>Patient Registry</h2>
+        @if (!isReadOnly)
+        {
+            <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow-sm">
+                <i class="bi bi-plus-lg me-1"></i>New Patient
+            </a>
+        }
+        else
+        {
+            <span class="badge bg-secondary rounded-pill px-3 py-2">
+                <i class="bi bi-eye me-1"></i>Read-Only View
+            </span>
+        }
     </div>
 
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i> @TempData["Success"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
-    <!-- Search Form -->
     <div class="card border-0 shadow-sm mb-4">
         <div class="card-body bg-light rounded">
             <form asp-action="Index" method="get" class="row g-3 align-items-center">
-                <div class="col-auto">
-                    <label for="searchString" class="col-form-label fw-bold">Search</label>
-                </div>
-                <div class="col-md-6">
-                    <input type="text" id="searchString" name="searchString" class="form-control" value="@ViewData["CurrentFilter"]" placeholder="Search by name or code..." />
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-dark"><i class="bi bi-search"></i> Search</button>
-                    <a asp-action="Index" class="btn btn-outline-secondary">Clear</a>
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-5">
+                        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" 
+                               class="form-control rounded-pill bg-light border-0 px-4" 
+                               placeholder="Search by name or code..." />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="date" name="dateFilter" value="@ViewData["DateFilter"]" 
+                               class="form-control rounded-pill bg-light border-0 px-4" title="Search by Date of Birth" />
+                    </div>
+                    <div class="col-md-3 d-flex gap-2">
+                        <button type="submit" class="btn btn-dark rounded-pill px-4">
+                            <i class="bi bi-search me-1"></i>Search
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Clear</a>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Data Grid -->
     <div class="card border-0 shadow-sm">
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
-                            <th>@Html.DisplayNameFor(model => model.Name)</th>
-                            <th>@Html.DisplayNameFor(model => model.Code)</th>
-                            <th>@Html.DisplayNameFor(model => model.DateOfBirth)</th>
-                            <th>@Html.DisplayNameFor(model => model.Phone)</th>
+                            <th class="ps-4">Name</th>
+                            <th>Code</th>
+                            <th>Date of Birth</th>
+                            <th>Phone</th>
                             <th class="text-end pe-4">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model) {
+                        @foreach (var item in Model)
+                        {
                             <tr>
-                                <td class="fw-bold ps-3">@Html.DisplayFor(modelItem => item.Name)</td>
-                                <td><span class="badge bg-secondary">@Html.DisplayFor(modelItem => item.Code)</span></td>
+                                <td class="fw-semibold ps-4">@item.Name</td>
+                                <td><span class="badge bg-secondary rounded-pill">@item.Code</span></td>
                                 <td>@item.DateOfBirth.ToShortDateString()</td>
-                                <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                                <td>@(string.IsNullOrEmpty(item.Phone) ? "—" : item.Phone)</td>
                                 <td class="text-end pe-3">
-                                    <button type="button" class="btn btn-sm btn-outline-danger shadow-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-@item.Id">
-                                        <i class="bi bi-trash"></i> Delete
-                                    </button>
+                                    @if (!isReadOnly)
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary rounded-pill me-1">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-outline-danger rounded-pill"
+                                                data-bs-toggle="modal" data-bs-target="#delModal-@item.Id">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
 
-                                    <!-- Delete Confirmation Dialog -->
-                                    <div class="modal fade" id="deleteModal-@item.Id" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content border-0 shadow">
-                                          <div class="modal-header bg-danger text-white border-0">
-                                            <h5 class="modal-title" id="deleteModalLabel"><i class="bi bi-exclamation-triangle-fill"></i> Confirm Deletion</h5>
-                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                          </div>
-                                          <div class="modal-body text-start">
-                                            Are you sure you want to completely delete the record for <strong>@item.Name</strong>? This action cannot be undone.
-                                          </div>
-                                          <div class="modal-footer border-0 bg-light">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline">
-                                                <button type="submit" class="btn btn-danger">Yes, Delete Securely</button>
-                                            </form>
-                                          </div>
+                                        <div class="modal fade" id="delModal-@item.Id" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content border-0 shadow-lg">
+                                                    <div class="modal-header bg-danger text-white border-0">
+                                                        <h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill me-2"></i>Delete Patient</h5>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Permanently delete the record for <strong>@item.Name</strong>? This cannot be undone.
+                                                    </div>
+                                                    <div class="modal-footer border-0">
+                                                        <button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                                                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline">
+                                                            @Html.AntiForgeryToken()
+                                                            <button type="submit" class="btn btn-danger rounded-pill">Yes, Delete</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                      </div>
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary rounded-pill">
+                                            <i class="bi bi-eye me-1"></i>View
+                                        </a>
+                                    }
                                 </td>
                             </tr>
                         }
                         @if (!Model.Any())
                         {
                             <tr>
-                                <td colspan="5" class="text-center py-4 text-muted">No records found.</td>
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <i class="bi bi-person-x fs-2 d-block mb-2"></i>No patients found.
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -100,5 +125,5 @@
 <style>
     .fade-in { animation: fadeIn 0.4s ease-in; }
     @@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .table-hover tbody tr:hover { background-color: #f8f9fa; transform: scale(1.001); transition: all 0.2s; }
+    .table-hover tbody tr:hover { background-color: #f0f7ff; }
 </style>
