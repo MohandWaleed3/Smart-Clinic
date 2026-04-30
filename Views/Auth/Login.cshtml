@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="d-flex align-items-center justify-content-center mt-5">
+    <div class="card shadow-lg border-0 rounded-lg p-5" style="width: 100%; max-width: 450px;">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-primary">Smart Clinic</h2>
+            <p class="text-muted">Enter your credentials to access the portal</p>
+        </div>
+        
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger shadow-sm alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        
+        <form asp-action="Login" method="post">
+            <div class="form-floating mb-3">
+                <input type="text" id="code" name="code" class="form-control" required placeholder="Access Code" />
+                <label for="code">Access Code</label>
+            </div>
+            <div class="form-floating mb-4">
+                <input type="password" id="password" name="password" class="form-control" required placeholder="Password" />
+                <label for="password">Password</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow-sm">
+                Log In
+            </button>
+        </form>
+
+        <div class="mt-4 text-center text-muted small">
+            <p><strong>Demo Accounts:</strong><br/>
+            Admin: admin123 / password<br/>
+            Doctor: doc123 / password<br/>
+            Reception: rec123 / password</p>
+        </div>
+    </div>
+</div>

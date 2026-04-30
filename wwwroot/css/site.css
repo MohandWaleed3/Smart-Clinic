@@ -1,0 +1,73 @@
+/* wwwroot/css/site.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary: #4e73df;
+    --success: #1cc88a;
+    --info: #36b9cc;
+    --warning: #f6c23e;
+    --danger: #e74a3b;
+    --dark: #5a5c69;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.4);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background-attachment: fixed;
+    color: #495057;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px 0 rgba(31, 38, 135, 0.12);
+}
+
+.glass-input {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.glass-input:focus {
+    background: #fff;
+    box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+    border-color: var(--primary);
+}
+
+.bg-gradient-primary { background: linear-gradient(135deg, #4e73df 10%, #224abe 100%); }
+.bg-gradient-success { background: linear-gradient(135deg, #1cc88a 10%, #13855c 100%); }
+
+.admin-card { border-left: 5px solid var(--primary); }
+.doctor-card { border-left: 5px solid var(--success); }
+.reception-card { border-left: 5px solid var(--info); }
+.patient-card { border-left: 5px solid var(--dark); }
+
+.fade-in { animation: fadeIn 0.5s ease-in-out; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.custom-table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    color: #858796;
+}
+.custom-table tbody tr { transition: all 0.2s ease; }
+.custom-table tbody tr:hover { background-color: rgba(78, 115, 223, 0.05); transform: scale(1.01); }
+
+.navbar {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%) !important;
+}

@@ -1,0 +1,129 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4 fade-in">
+    <div class="d-flex justify-content-between align-items-center mb-5 pb-3 border-bottom">
+        <h2 class="fw-bold">Welcome back, <span class="text-primary">@ViewBag.UserName</span>!</h2>
+        <span class="badge bg-primary rounded-pill px-3 py-2 fs-6 shadow-sm"><i class="bi bi-shield-lock"></i> Role: @ViewBag.Role</span>
+    </div>
+
+    @if (ViewBag.Role == "Admin")
+    {
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm admin-card glass-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-circle bg-gradient-primary text-white mb-3">
+                            <i class="bi bi-people-fill fs-3"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Manage Staff</h5>
+                        <p class="card-text text-muted">Add, edit, or remove staff accounts and assign roles securely.</p>
+                        <a asp-controller="Users" asp-action="Index" class="btn btn-dark w-100 rounded-pill mt-2">Go to Users</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm admin-card glass-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-circle bg-danger text-white mb-3">
+                            <i class="bi bi-shield-check fs-3"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Security Logs</h5>
+                        <p class="card-text text-muted">Monitor login attempts and system anomalies proactively.</p>
+                        <a href="#" class="btn btn-outline-danger w-100 rounded-pill mt-2">View Logs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else if (ViewBag.Role == "Doctor")
+    {
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm doctor-card glass-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-circle bg-gradient-success text-white mb-3">
+                            <i class="bi bi-calendar-check fs-3"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Today's Appointments</h5>
+                        <p class="card-text text-muted">Access your patient queue and enter diagnosis notes securely.</p>
+                        <a asp-controller="Appointments" asp-action="Index" class="btn btn-success w-100 rounded-pill mt-2">View Schedule</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else if (ViewBag.Role == "Reception")
+    {
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm reception-card glass-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-circle bg-info text-white mb-3">
+                            <i class="bi bi-person-plus-fill fs-3"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Patient Registry</h5>
+                        <p class="card-text text-muted">Register new patients, search records, and book appointments.</p>
+                        <a asp-controller="Patients" asp-action="Index" class="btn btn-info text-white w-100 rounded-pill mt-2 fw-bold">Manage Patients</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm reception-card glass-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-circle bg-gradient-success text-white mb-3">
+                            <i class="bi bi-calendar-plus fs-3"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Appointments</h5>
+                        <p class="card-text text-muted">Schedule and manage clinic appointments effectively.</p>
+                        <a asp-controller="Appointments" asp-action="Index" class="btn btn-success w-100 rounded-pill mt-2 fw-bold">Book Appointment</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else if (ViewBag.Role == "Patient")
+    {
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm patient-card">
+                    <div class="card-body p-4 text-center">
+                        <div class="icon-circle bg-secondary text-white mb-3">
+                            <i class="bi bi-journal-medical fs-3"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">My Health Records</h5>
+                        <p class="card-text text-muted">Securely access your past visits, prescriptions, and upcoming appointments.</p>
+                        <a href="#" class="btn btn-secondary w-100 rounded-pill mt-2">View Records</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .icon-circle {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    .fade-in {
+        animation: fadeIn 0.5s ease-in;
+    }
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
