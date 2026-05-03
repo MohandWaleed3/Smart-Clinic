@@ -451,3 +451,4 @@ D:\Project Dr Abeer\Smart-Clinic\SmartClinic.Tests\obj\Debug\net10.0\refint\Smar
 D:\Project Dr Abeer\Smart-Clinic\SmartClinic.Tests\obj\Debug\net10.0\SmartClinic.Tests.pdb
 D:\Project Dr Abeer\Smart-Clinic\SmartClinic.Tests\obj\Debug\net10.0\SmartClinic.Tests.genruntimeconfig.cache
 D:\Project Dr Abeer\Smart-Clinic\SmartClinic.Tests\obj\Debug\net10.0\ref\SmartClinic.Tests.dll
+D:\Project Dr Abeer\Smart-Clinic\SmartClinic.Tests\bin\Debug\net10.0\BCrypt.Net-Next.dll

@@ -210,3 +210,4 @@ D:\Project Dr Abeer\Smart-Clinic\bin\Debug\net10.0\runtimes\win-x64\native\e_sql
 D:\Project Dr Abeer\Smart-Clinic\bin\Debug\net10.0\runtimes\win-x86\native\e_sqlite3.dll
 D:\Project Dr Abeer\Smart-Clinic\obj\Debug\net10.0\compressed\3j4cbn9g6q-{0}-p9ky6w9uld-p9ky6w9uld.gz
 D:\Project Dr Abeer\Smart-Clinic\obj\Debug\net10.0\compressed\liikrcpglv-{0}-hf8s2cbwta-hf8s2cbwta.gz
+D:\Project Dr Abeer\Smart-Clinic\bin\Debug\net10.0\BCrypt.Net-Next.dll

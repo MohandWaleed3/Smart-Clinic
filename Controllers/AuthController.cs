@@ -27,8 +27,8 @@ namespace SmartClinic.Controllers
         [HttpPost]
         public IActionResult Login(string code, string password)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Code == code && u.Password == password);
-            if (user != null)
+            var user = _context.Users.FirstOrDefault(u => u.Code == code);
+            if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
                 HttpContext.Session.SetInt32("UserId", user.Id);
                 HttpContext.Session.SetString("UserCode", user.Code);

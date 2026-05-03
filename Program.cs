@@ -26,10 +26,11 @@ using (var scope = app.Services.CreateScope())
     context.Database.EnsureCreated();
     if (!context.Users.Any())
     {
-        context.Users.Add(new SmartClinic.Models.User { Name = "Admin User", Code = "admin123", Role = "Admin", Password = "password" });
-        context.Users.Add(new SmartClinic.Models.User { Name = "Dr. Smith", Code = "doc123", Role = "Doctor", Password = "password" });
-        context.Users.Add(new SmartClinic.Models.User { Name = "Front Desk", Code = "rec123", Role = "Reception", Password = "password" });
-        context.Users.Add(new SmartClinic.Models.User { Name = "John Doe", Code = "pat123", Role = "Patient", Password = "password" });
+        var defaultPasswordHash = BCrypt.Net.BCrypt.HashPassword("password");
+        context.Users.Add(new SmartClinic.Models.User { Name = "Admin User", Code = "admin123", Role = "Admin", Password = defaultPasswordHash });
+        context.Users.Add(new SmartClinic.Models.User { Name = "Dr. Smith", Code = "doc123", Role = "Doctor", Password = defaultPasswordHash });
+        context.Users.Add(new SmartClinic.Models.User { Name = "Front Desk", Code = "rec123", Role = "Reception", Password = defaultPasswordHash });
+        context.Users.Add(new SmartClinic.Models.User { Name = "John Doe", Code = "pat123", Role = "Patient", Password = defaultPasswordHash });
         context.SaveChanges();
     }
 }

@@ -51,6 +51,7 @@ namespace SmartClinic.Controllers
 
             if (ModelState.IsValid)
             {
+                user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "User created successfully!";
@@ -79,6 +80,10 @@ namespace SmartClinic.Controllers
 
             if (ModelState.IsValid)
             {
+                if (!user.Password.StartsWith("$2"))
+                {
+                    user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                }
                 _context.Update(user);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "User updated successfully!";

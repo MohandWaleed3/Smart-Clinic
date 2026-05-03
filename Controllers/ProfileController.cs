@@ -45,7 +45,7 @@ namespace SmartClinic.Controllers
 
             user.Name = name;
             if (!string.IsNullOrWhiteSpace(password))
-                user.Password = password;
+                user.Password = BCrypt.Net.BCrypt.HashPassword(password);
 
             await _context.SaveChangesAsync();
 
