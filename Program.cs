@@ -8,7 +8,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add session for simple authentication simulation
 builder.Services.AddSession(options =>
@@ -23,7 +23,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context.Database.EnsureCreated();
+    // context.Database.EnsureCreated();
     if (!context.Users.Any())
     {
         var defaultPasswordHash = BCrypt.Net.BCrypt.HashPassword("password");
