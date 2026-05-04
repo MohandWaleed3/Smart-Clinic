@@ -1,18 +1,18 @@
 @model SmartClinic.Models.User
-@{ ViewData["Title"] = "Add Staff Member"; }
+@{ ViewData["Title"] = "Add User"; }
 
 <div class="container mt-4 fade-in" style="max-width: 600px;">
     <div class="mb-4">
         <a asp-action="Index" class="btn btn-outline-secondary rounded-pill btn-sm">
-            <i class="bi bi-arrow-left me-1"></i>Back to Staff
+            <i class="bi bi-arrow-left me-1"></i>Back to Users
         </a>
     </div>
 
     <div class="card border-0 shadow-sm">
         <div class="card-header text-white border-0 py-3"
              style="background: linear-gradient(135deg, #1e3a5f, #2563eb);">
-            <h5 class="mb-0 fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Add Staff Member</h5>
-            <p class="mb-0 small text-white-50 mt-1">Fill in the details to create a new staff account.</p>
+            <h5 class="mb-0 fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Add User</h5>
+            <p class="mb-0 small text-white-50 mt-1">Fill in the details to create a new user account.</p>
         </div>
         <div class="card-body p-4">
             <form asp-action="Create" method="post">
@@ -71,7 +71,7 @@
                         <i class="bi bi-x-lg me-1"></i>Cancel
                     </a>
                     <button type="submit" class="btn btn-primary rounded-pill px-4">
-                        <i class="bi bi-check-lg me-1"></i>Create Staff
+                        <i class="bi bi-check-lg me-1"></i>Create User
                     </button>
                 </div>
             </form>

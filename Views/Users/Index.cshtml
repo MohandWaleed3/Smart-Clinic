@@ -1,11 +1,11 @@
 @model IEnumerable<SmartClinic.Models.User>
-@{ ViewData["Title"] = "Staff Management"; }
+@{ ViewData["Title"] = "Users Management"; }
 
 <div class="container mt-4 fade-in">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold"><i class="bi bi-shield-person text-primary me-2"></i>Staff Management</h2>
+        <h2 class="fw-bold"><i class="bi bi-shield-person text-primary me-2"></i>Users Management</h2>
         <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow-sm">
-            <i class="bi bi-person-plus-fill me-1"></i>Add Staff
+            <i class="bi bi-person-plus-fill me-1"></i>Add User
         </a>
     </div>
 
@@ -69,7 +69,7 @@
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content border-0 shadow-lg">
                                                 <div class="modal-header bg-danger text-white border-0">
-                                                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill me-2"></i>Delete Staff</h5>
+                                                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill me-2"></i>Delete User</h5>
                                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <div class="modal-body">
@@ -92,7 +92,7 @@
                         {
                             <tr>
                                 <td colspan="4" class="text-center py-5 text-muted">
-                                    <i class="bi bi-people fs-2 d-block mb-2"></i>No staff found.
+                                    <i class="bi bi-people fs-2 d-block mb-2"></i>No users found.
                                 </td>
                             </tr>
                         }
