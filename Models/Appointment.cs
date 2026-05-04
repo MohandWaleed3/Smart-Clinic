@@ -9,11 +9,11 @@ namespace SmartClinic.Models
         
         [Required(ErrorMessage = "Patient is required")]
         public int PatientId { get; set; }
-        public Patient Patient { get; set; }
+        public Patient? Patient { get; set; }
         
         [Required(ErrorMessage = "Doctor is required")]
         public int DoctorId { get; set; }
-        public User Doctor { get; set; }
+        public User? Doctor { get; set; }
         
         [Required(ErrorMessage = "Appointment Date is required")]
         public DateTime AppointmentDate { get; set; }

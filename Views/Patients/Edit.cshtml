@@ -27,6 +27,11 @@
                     <span asp-validation-for="Code" class="text-danger small"></span>
                 </div>
                 <div class="mb-3">
+                    <label asp-for="Email" class="form-label fw-semibold">Email Address</label>
+                    <input asp-for="Email" type="email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
                     <label asp-for="DateOfBirth" class="form-label fw-semibold">Date of Birth</label>
                     <input asp-for="DateOfBirth" type="date" class="form-control" />
                     <span asp-validation-for="DateOfBirth" class="text-danger small"></span>

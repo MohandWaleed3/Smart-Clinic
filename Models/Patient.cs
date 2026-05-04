@@ -12,6 +12,10 @@ namespace SmartClinic.Models
         
         [Required(ErrorMessage = "Code is required")]
         public string Code { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; }
         
         [Required(ErrorMessage = "Date of Birth is required")]
         [DataType(DataType.Date)]

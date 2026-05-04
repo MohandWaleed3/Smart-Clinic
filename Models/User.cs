@@ -12,6 +12,13 @@ namespace SmartClinic.Models
         [Required(ErrorMessage = "Code is required")]
         public string Code { get; set; }
         
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; }
+        
+        public string? PasswordResetToken { get; set; }
+        public DateTime? ResetTokenExpiry { get; set; }
+        
         [Required(ErrorMessage = "Role is required")]
         public string Role { get; set; } // Admin, Doctor, Reception, Patient
         

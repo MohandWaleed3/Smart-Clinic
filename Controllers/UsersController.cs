@@ -41,12 +41,16 @@ namespace SmartClinic.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Code,Role,Password")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name,Code,Email,Role,Password")] User user)
         {
             // Check for duplicate code
             if (_context.Users.Any(u => u.Code == user.Code))
             {
                 ModelState.AddModelError("Code", "A user with this code already exists.");
+            }
+            if (_context.Users.Any(u => u.Email == user.Email))
+            {
+                ModelState.AddModelError("Email", "A user with this email already exists.");
             }
 
             if (ModelState.IsValid)
@@ -69,13 +73,17 @@ namespace SmartClinic.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Code,Role,Password")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Code,Email,Role,Password")] User user)
         {
             if (id != user.Id) return NotFound();
 
             if (_context.Users.Any(u => u.Code == user.Code && u.Id != user.Id))
             {
                 ModelState.AddModelError("Code", "Another user already has this code.");
+            }
+            if (_context.Users.Any(u => u.Email == user.Email && u.Id != user.Id))
+            {
+                ModelState.AddModelError("Email", "Another user already has this email.");
             }
 
             if (ModelState.IsValid)

@@ -14,6 +14,7 @@ namespace SmartClinic.Tests.Models
             var user = new User
             {
                 Name = "Test User",
+                Email = "test@example.com",
                 Code = "TEST01",
                 Role = "Admin",
                 Password = "validpassword"
@@ -36,6 +37,7 @@ namespace SmartClinic.Tests.Models
             var user = new User
             {
                 Name = "Test User",
+                Email = "test@example.com",
                 Code = "TEST01",
                 Role = "Admin",
                 Password = "short" // Less than 6 characters
@@ -64,7 +66,7 @@ namespace SmartClinic.Tests.Models
 
             // Assert
             Assert.False(isValid);
-            Assert.Equal(4, validationResults.Count); // Name, Code, Role, Password are required
+            Assert.Equal(5, validationResults.Count); // Name, Code, Email, Role, Password are required
         }
     }
 }

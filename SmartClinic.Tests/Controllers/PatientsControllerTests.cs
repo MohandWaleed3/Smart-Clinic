@@ -44,8 +44,8 @@ namespace SmartClinic.Tests.Controllers
             var options = GetDbOptions();
             using (var context = new ApplicationDbContext(options))
             {
-                context.Patients.Add(new Patient { Id = 1, Name = "Ahmed", Code = "P1", DateOfBirth = new DateTime(1990, 1, 1), Phone = "12345" });
-                context.Patients.Add(new Patient { Id = 2, Name = "Sara", Code = "P2", DateOfBirth = new DateTime(1985, 5, 5), Phone = "12345" });
+                context.Patients.Add(new Patient { Id = 1, Name = "Ahmed", Email = "ahmed@example.com", Code = "P1", DateOfBirth = new DateTime(1990, 1, 1), Phone = "12345" });
+                context.Patients.Add(new Patient { Id = 2, Name = "Sara", Email = "sara@example.com", Code = "P2", DateOfBirth = new DateTime(1985, 5, 5), Phone = "12345" });
                 context.SaveChanges();
             }
 
@@ -71,8 +71,8 @@ namespace SmartClinic.Tests.Controllers
             var options = GetDbOptions();
             using (var context = new ApplicationDbContext(options))
             {
-                context.Patients.Add(new Patient { Id = 1, Name = "Ahmed", Code = "P1", DateOfBirth = new DateTime(1990, 1, 1), Phone = "12345" });
-                context.Patients.Add(new Patient { Id = 2, Name = "Sara", Code = "P2", DateOfBirth = new DateTime(1985, 5, 5), Phone = "12345" });
+                context.Patients.Add(new Patient { Id = 1, Name = "Ahmed", Email = "ahmed@example.com", Code = "P1", DateOfBirth = new DateTime(1990, 1, 1), Phone = "12345" });
+                context.Patients.Add(new Patient { Id = 2, Name = "Sara", Email = "sara@example.com", Code = "P2", DateOfBirth = new DateTime(1985, 5, 5), Phone = "12345" });
                 context.SaveChanges();
             }
 
@@ -99,8 +99,8 @@ namespace SmartClinic.Tests.Controllers
             var options = GetDbOptions();
             using (var context = new ApplicationDbContext(options))
             {
-                context.Patients.Add(new Patient { Id = 1, Name = "Ahmed", Code = "P1", DateOfBirth = new DateTime(1990, 1, 1), Phone = "12345" });
-                context.Patients.Add(new Patient { Id = 2, Name = "Sara", Code = "P2", DateOfBirth = new DateTime(1985, 5, 5), Phone = "12345" });
+                context.Patients.Add(new Patient { Id = 1, Name = "Ahmed", Email = "ahmed@example.com", Code = "P1", DateOfBirth = new DateTime(1990, 1, 1), Phone = "12345" });
+                context.Patients.Add(new Patient { Id = 2, Name = "Sara", Email = "sara@example.com", Code = "P2", DateOfBirth = new DateTime(1985, 5, 5), Phone = "12345" });
                 context.SaveChanges();
             }
 

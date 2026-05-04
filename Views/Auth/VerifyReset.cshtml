@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "Verify Reset";
+    Layout = "_Layout";
+}
+
+<div class="login-container fade-in">
+    <div class="login-card">
+        <div class="login-header bg-success">
+            <div class="login-logo">
+                <i class="bi bi-check-circle-fill text-white fs-2"></i>
+            </div>
+            <h3 class="fw-bold text-white mb-1">Authentication Complete</h3>
+            <p class="text-white-50 mb-0 small">You can now reset your password</p>
+        </div>
+        <div class="login-body text-center">
+            <p class="text-muted mb-4">Your identity has been verified successfully. Click below to choose a new password.</p>
+            
+            <div class="d-grid mb-3">
+                <a asp-action="ResetPassword" class="btn btn-success rounded-pill py-2 fw-bold">
+                    <i class="bi bi-key me-2"></i>Proceed to Reset Password
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

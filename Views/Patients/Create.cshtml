@@ -34,6 +34,23 @@
 
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
+                        <label asp-for="Email" class="form-label">Email Address</label>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="e.g. john@example.com" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Temporary Password</label>
+                        <div class="password-wrapper">
+                            <input name="password" type="password" class="form-control" placeholder="Set a password for login" required minlength="6" />
+                            <button type="button" class="password-toggle" aria-label="Show password">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
                         <label asp-for="DateOfBirth" class="form-label">Date of Birth</label>
                         <input asp-for="DateOfBirth" type="date" class="form-control" />
                         <span asp-validation-for="DateOfBirth" class="text-danger small"></span>

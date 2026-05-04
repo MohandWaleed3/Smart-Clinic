@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using SmartClinic.Data;
 
+using SmartClinic.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<EmailService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -27,10 +30,10 @@ using (var scope = app.Services.CreateScope())
     if (!context.Users.Any())
     {
         var defaultPasswordHash = BCrypt.Net.BCrypt.HashPassword("password");
-        context.Users.Add(new SmartClinic.Models.User { Name = "Admin User", Code = "admin123", Role = "Admin", Password = defaultPasswordHash });
-        context.Users.Add(new SmartClinic.Models.User { Name = "Dr. Smith", Code = "doc123", Role = "Doctor", Password = defaultPasswordHash });
-        context.Users.Add(new SmartClinic.Models.User { Name = "Front Desk", Code = "rec123", Role = "Reception", Password = defaultPasswordHash });
-        context.Users.Add(new SmartClinic.Models.User { Name = "John Doe", Code = "pat123", Role = "Patient", Password = defaultPasswordHash });
+        context.Users.Add(new SmartClinic.Models.User { Name = "Admin User", Email = "admin@smartclinic.com", Code = "admin123", Role = "Admin", Password = defaultPasswordHash });
+        context.Users.Add(new SmartClinic.Models.User { Name = "Dr. Smith", Email = "doctor@smartclinic.com", Code = "doc123", Role = "Doctor", Password = defaultPasswordHash });
+        context.Users.Add(new SmartClinic.Models.User { Name = "Front Desk", Email = "reception@smartclinic.com", Code = "rec123", Role = "Reception", Password = defaultPasswordHash });
+        context.Users.Add(new SmartClinic.Models.User { Name = "John Doe", Email = "patient@smartclinic.com", Code = "pat123", Role = "Patient", Password = defaultPasswordHash });
         context.SaveChanges();
     }
 }

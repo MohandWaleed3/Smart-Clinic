@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SmartClinic.Controllers;
 using SmartClinic.Data;
 using SmartClinic.Models;
@@ -23,7 +24,9 @@ namespace SmartClinic.Tests.Controllers
 
         private AuthController CreateController(ApplicationDbContext context)
         {
-            var controller = new AuthController(context);
+            var config = new ConfigurationBuilder().Build();
+            var emailService = new SmartClinic.Services.EmailService(config);
+            var controller = new AuthController(context, emailService);
             var httpContext = new DefaultHttpContext();
             var session = new FakeSession();
             httpContext.Session = session;
@@ -46,7 +49,7 @@ namespace SmartClinic.Tests.Controllers
             var options = GetDbOptions();
             using (var context = new ApplicationDbContext(options))
             {
-                context.Users.Add(new User { Id = 1, Name = "Admin User", Code = "admin123", Password = "password", Role = "Admin" });
+                context.Users.Add(new User { Id = 1, Name = "Admin User", Email = "admin@smartclinic.com", Code = "admin123", Password = BCrypt.Net.BCrypt.HashPassword("password"), Role = "Admin" });
                 context.SaveChanges();
             }
 
@@ -55,7 +58,7 @@ namespace SmartClinic.Tests.Controllers
                 var controller = CreateController(context);
 
                 // Act
-                var result = controller.Login("admin123", "password") as RedirectToActionResult;
+                var result = controller.Login("admin@smartclinic.com", "password") as RedirectToActionResult;
 
                 // Assert
                 Assert.NotNull(result);
@@ -79,11 +82,11 @@ namespace SmartClinic.Tests.Controllers
                 var controller = CreateController(context);
 
                 // Act
-                var result = controller.Login("wrong", "credentials") as ViewResult;
+                var result = controller.Login("wrong@email.com", "credentials") as ViewResult;
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.Equal("Invalid code or password. Please try again.", controller.TempData["Error"]);
+                Assert.Equal("Invalid email or password. Please try again.", controller.TempData["Error"]);
             }
         }
     }

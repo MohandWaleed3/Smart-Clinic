@@ -24,11 +24,11 @@
 
             <form asp-action="Login" method="post">
                 <div class="mb-3">
-                    <label for="code" class="form-label">Access Code</label>
+                    <label for="email" class="form-label">Email Address</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-person-badge text-muted"></i></span>
-                        <input type="text" id="code" name="code" class="form-control border-start-0"
-                               required placeholder="Enter your access code" autocomplete="username" autofocus />
+                        <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                        <input type="email" id="email" name="email" class="form-control border-start-0"
+                               required placeholder="Enter your email" autocomplete="email" autofocus />
                     </div>
                 </div>
 
@@ -50,6 +50,11 @@
                     <button type="submit" class="btn btn-primary rounded-pill py-2 fw-bold" id="loginBtn">
                         <i class="bi bi-box-arrow-in-right me-2"></i>Log In
                     </button>
+                </div>
+                <div class="text-center mt-3">
+                    <a asp-action="ForgotPassword" class="text-decoration-none small text-muted hover-primary">
+                        <i class="bi bi-shield-lock me-1"></i>Forgot Password?
+                    </a>
                 </div>
             </form>
         </div>

@@ -63,16 +63,36 @@ namespace SmartClinic.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [RoleAuthorize("Reception")]
-        public async Task<IActionResult> Create([Bind("Id,Name,Code,DateOfBirth,Phone")] Patient patient)
+        public async Task<IActionResult> Create([Bind("Id,Name,Code,Email,DateOfBirth,Phone")] Patient patient, string password)
         {
             if (_context.Patients.Any(p => p.Code == patient.Code))
             {
                 ModelState.AddModelError("Code", "A patient with this code already exists.");
             }
+            if (_context.Users.Any(u => u.Email == patient.Email))
+            {
+                ModelState.AddModelError("Email", "A user with this email already exists.");
+            }
+            if (string.IsNullOrWhiteSpace(password) || password.Length < 6)
+            {
+                ModelState.AddModelError("", "Password is required and must be at least 6 characters.");
+            }
 
             if (ModelState.IsValid)
             {
                 _context.Add(patient);
+                
+                // Create corresponding User record for login
+                var user = new User
+                {
+                    Name = patient.Name,
+                    Code = patient.Code,
+                    Email = patient.Email,
+                    Role = "Patient",
+                    Password = BCrypt.Net.BCrypt.HashPassword(password)
+                };
+                _context.Users.Add(user);
+                
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Patient record created successfully!";
                 return RedirectToAction(nameof(Index));
@@ -93,7 +113,7 @@ namespace SmartClinic.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [RoleAuthorize("Reception")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Code,DateOfBirth,Phone")] Patient patient)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Code,Email,DateOfBirth,Phone")] Patient patient)
         {
             if (id != patient.Id) return NotFound();
 
@@ -101,10 +121,24 @@ namespace SmartClinic.Controllers
             {
                 ModelState.AddModelError("Code", "Another patient already has this code.");
             }
+            if (_context.Users.Any(u => u.Email == patient.Email && u.Code != patient.Code))
+            {
+                ModelState.AddModelError("Email", "Another user already has this email.");
+            }
 
             if (ModelState.IsValid)
             {
                 _context.Update(patient);
+                
+                // Also update the User record's email if it exists
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Code == patient.Code);
+                if (user != null)
+                {
+                    user.Email = patient.Email;
+                    user.Name = patient.Name;
+                    _context.Update(user);
+                }
+                
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Patient record updated successfully!";
                 return RedirectToAction(nameof(Index));
